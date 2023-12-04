@@ -21,10 +21,9 @@ const App = () => {
   // Arama çubuğunun çalışması için , arama kriterini tutacak başka bir state'e ihtiyacımız olacak.
   const [aramaKriteri, setAramaKriteri] = useState("");
   const gonderiyiBegen = (gonderiID) => {
-    console.log(
-      "Esmeralda beni beğendi! Esmeralda beni beğendi!",
-      gonderiID
-    ); /*
+    console.log("Esmeralda beni beğendi! Esmeralda beni beğendi!", gonderiID);
+
+    /*
       Bu fonksiyon, belirli bir id ile gönderinin beğeni sayısını bir artırma amacına hizmet eder.
 
       Uygulamanın durumu, React ağacının en üstünde bulunur, ancak iç içe geçmiş bileşenlerin stateleri değiştirememesi adil olmaz!
@@ -35,6 +34,7 @@ const App = () => {
         - gönderinin idsi "gonderiID" ile eşleşirse, istenen değerlerle yeni bir gönderi nesnesi döndürün.
         - aksi takdirde, sadece gönderi nesnesini değiştirmeden döndürün.
      */
+
     const updatedGonderiler = gonderiler.map((g) => {
       if (g.id === gonderiID) {
         g.likes += 1;
@@ -50,21 +50,28 @@ const App = () => {
   const aramaHandler = (val) => {
     setAramaKriteri(val);
     if (val === "") {
-      // BU YASSAH gonderiler = sahteVeri;
+      // BU yasak gonderiler = sahteVeri;
       setGonderiler(sahteVeri);
     } else {
       console.log("test filte arama test may day may day");
-      const filtered = gonderiler.filter((g) => g.username.includes(val));
-      // BU YASSAH gonderiler = filtered;
+      const filtered = sahteVeri.filter((g) => g.username.includes(val));
+      // BU yasak gonderiler = filtered;
       setGonderiler(filtered);
     }
   };
+
+  const test = (g) => {
+    const filtered = gonderiler.filter((g) =>
+      g.username.includes(aramaKriteri)
+    );
+    setGonderiler(filtered);
+  };
+
   return (
     <div className="App">
       {/* Yukarıdaki metni projeye başladığınızda silin*/}
       {/* AramaÇubuğu ve Gönderiler'i render etmesi için buraya ekleyin */}
-      <AramaCubugu />
-      <button onClick={aramaHandler}>deneme</button>
+      <AramaCubugu aramaKriteri={aramaKriteri} aramaHandler={aramaHandler} />
       {/* Her bileşenin hangi proplara ihtiyaç duyduğunu kontrol edin, eğer ihtiyaç varsa ekleyin! */}
       <Gonderiler
         gonderilerProp={gonderiler}
